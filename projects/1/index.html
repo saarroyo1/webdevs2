@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Crimes - 2001 to present</title>
+        <style>
+            div.class {
+                background-color:orange; 
+                border: 1px solid black; 
+                border-radius: 6px;
+                min-height:75px;
+                padding:15px;
+            }
+            body{
+                background-color:lightblue;
+            }
+            h2 {color:blue;}
+            h3 {color:red;}
+            p {font-size:20px;color:white;}
+        </style>
+    </head>
+    <body>
+        <h1>Crimes - 2001 to present</h1>
+        <div id="form" class="class">
+
+
+            <p>Crime Type:</p>
+            <select id="txtQuery" type="text">
+              <option value="THEFT">Theft</option>
+              <option value="ROBBERY">Robbery</option>
+              <option value="ASSAULT">Assault</option>
+              <option value="BATTERY">Battery</option>
+              <option value="WEAPONS VIOLATION">Weapons Violation</option>
+              <option value="NARCOTICS">Narcotics</option>
+              <option value="DECEPTIVE PRACTICE">Deceptive Practice</option>
+              <option value="BURGLARY">Burglary</option>
+              <option value="OFFENSE INVOLVING CHILDREN">Offense Involving Children</option>
+              <option value="MOTOR VEHICLE THEFT">Motor Vehicle Theft</option>
+              <option value="CRIM SEXUAL ASSAULT">Crim Sexual Assault</option>
+              <option value="PUBLIC PEACE VIOLATION">Public Peace Violation</option>
+              <option value="PROSTITUTION">Prostitution</option>
+              <option value="SEX OFFENSE">Sex Offense</option>
+              <option value="HOMICIDE">Homicide</option>
+              <option value="INTERFERENCE WITH PUBLIC OFFICER">Interference With Public Officer</option>
+              <option value="CRIMINAL DAMAGE">Criminal Damage</option>
+              <option value="CRIMINAL TRESPASS">Criminal Trespass</option>
+              <option value="STALKING">Stalking</option>
+              <option value="OTHER OFFENSE">Other Offense</option>
+
+            </select>
+            <p>Arrest?</p>
+            <select id="txtOne" type="text">
+                <option value="TRUE">Yes</option>
+                <option value="FALSE">No</option>
+            </select>    
+            <p>Year of crime</p>
+                <select id="txt" type="text">
+                  <option value="2001">2001</option>
+                  <option value="2002">2002</option>
+                  <option value="2003">2003</option>
+                  <option value="2004">2004</option>
+                  <option value="2005">2005</option>
+                  <option value="2006">2006</option>
+                  <option value="2007">2007</option>
+                  <option value="2008">2008</option>
+                  <option value="2009">2009</option>
+                  <option value="2010">2010</option>
+                  <option value="2011">2011</option>
+                  <option value="2012">2012</option>
+                  <option value="2013">2013</option>
+                  <option value="2014">2014</option>
+                  <option value="2015">2015</option>
+                  <option value="2016">2016</option>
+                  <option value="2017">2017</option>
+                </select>
+                <button type="button" id="btnSearch" >Find!</button>
+        </div>
+        
+        <div id="results" class="class">
+        
+        
+        
+        
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+       <script>
+
+        var crimeData;
+            $(function() {
+                var baseUrl = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
+                var filter = "?primary_type="
+                var filterYear = "&year="
+                var filterArrest = "&arrest="
+            //console.log(baseUrl)
+            
+            
+            
+                $("#btnSearch").on("click", function() {
+                    $("#results").html("");
+                    var searchTerm = $("#txtQuery").val();
+                    var search = $("#txt").val();
+                    var searchOne = $("#txtOne").val();
+                    
+                    var url = baseUrl + filter;
+                    var url1 = url + searchTerm
+                    var url2 = url1 + filterYear
+                    var url3 = url2 + search
+                    var url4 = url3 + filterArrest
+                    
+                        
+                    $.getJSON(url4 + searchOne)
+                        .done(function(data) {
+                                crimeData = data;
+                                //console.log(data);
+                                var numRecords = data.length;  // the length of the array
+                        
+                                // notify of number of records
+                                var message = "<p>Records found: "
+                                + numRecords
+                                + "</p>"
+                        
+                                $("#results").append(message);
+                        if (numRecords > 0) {
+                            $.each(data, function(index, value) {
+                                var html = 
+                                "<h2>"
+                                + "Arrest:"
+                                + value.arrest
+                                + "</h2>"
+                                + "<h3>"
+                                + "Date:"
+                                + value.date
+                                + "</h3>"
+                                + "<h3>"
+                                + "Type of Crime:"
+                                + value.primary_type
+                                + "</h3>"
+                                + "<h3>"
+                                + "Block:"
+                                + value.block
+                                + "</h3>"
+                                + "<h3>"
+                                + "Description:"
+                                + value.description
+                                + "</h3>"
+                                + "<h3>"
+                                + "Year:"
+                                + value.year
+                                + "</h3>";
+                               
+                            $("#results").append(html)
+                        });
+                    };
+                });
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                });
+            }); 
+        </script>
+    </body>
+</html>
