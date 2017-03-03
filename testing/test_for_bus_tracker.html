@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery.parseXML demo</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <style>
+    body {background-color: powderblue;}
+    div{border-style: dotted;}
+    p.title2{border-style:dashed;}
+    button{text-align: center}
+  </style>
+</head>
+<body onload="baseFunction()">
+      <p id= "title"></p>
+      <p class="title2"><b>Lane bus routes:</b></p>
+      <div id="buttons">
+        <button><a>Western X49 Northbound</a></button>
+        
+        <button><a>Western X49 Southbound</a></button>
+        <button><a>Western 49 Northbound</a></button>
+        <button><a>Western 49 Southbound</a></button>
+        <button><a>Addison 152 Eastbound</a></button>
+        <button><a>Addison 152 Westbound</a></button>
+        <button><a>Kedzie 52</a></button>        
+      </div>
+
+      <select id= "stop" type="text">
+        <option value= "12527">Addison East-Bound</option>
+        <option value= "12569">Addison West-Bound</option>
+        <option value= "8195">Western South-Bound</option>
+        <option value= "8417">Western North-bound</option>
+        <option value= "17786">Kedzie/California on Rockwell & Addison</option>
+      </select>
+      <!-- Dropdown menu for the user -->
+      
+      <button type= "button "id="btnSearch">Search Arrival Times</button>
+      <div id="results"></div>
+      <div id="X49N"></div>
+      <div id="X49S"></div>
+      <div id="49N"></div>
+      <div id="49S"></div>
+      <div id="152E"></div>
+      <div id="152W"></div>
+      <div id="52"></div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script>
+        $(function baseFunction() {
+          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+          //passthru url
+          var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getpredictions";
+          //original datat site
+          $(function() {
+                $("#results").html("");
+                  var url = apiPassThruUrl
+                  //search for results on button press
+                  
+          $.ajax({
+              url: apiPassThruUrl,
+              dataType: "json",
+              method: 'GET',
+              data: {"apiEndpoint": apiEndpoint,
+                      "key" : "MC9Uhep9YuZ8XWsM2CpNTwhrq",
+                      "format":"json",
+                      "stpid" : "12527,12569,8195,8417,17786", 
+                      "rt" : "49,X49,152,52"
+              }
+                  
+            }).done (function (data) {
+              
+              console.log(data);
+              $("#title").append("");
+             
+             
+              })
+
+            });
+        });
+            
+  
+</script>
+ 
+</body>
+</html>

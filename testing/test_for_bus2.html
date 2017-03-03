@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+    </div>
+  </div>
+</nav>
+     <div class="col-sm-2 sidenav">
+      <div class="well">
+        <button><a>Western X49 Southbound</a></button>
+      </div>
+      <div class="well">
+        <button><a>Western X49 Northbound</a></button>
+      </div>
+      <div class="well">
+          <button><a>Western 49 Northbound</a></button>
+      </div>
+      <div class="well">
+          <button><a>Western 49 Southbound</a></button>
+      </div>
+      <div class="well">
+          <button><a>Addison 152 Eastbound</a></button>
+      </div>
+      <div class="well">
+          <button><a>Addison 152 Westbound</a></button>
+      </div>
+      <div class="well">
+          <button><a>Kedzie 52</a></button>
+      </div>
+    </div>
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div id="Northbound49"> 
+        <h2>Western Northbound 49</h2>
+    </div>
+    <hr>
+    <div id="Southbound49">
+      <h2>Western Southbound 49</h2>
+    </div>
+    <hr>
+    <div id="NorthboundX49">
+      <h2>Western Northbound X49</h2>
+    </div>
+    <hr>
+    <div id="SouthboundX49">
+      <h2>Western Southbound X49</h2>
+    </div>
+    <hr>
+    <div id="Eastbound152">
+      <h2>Addison Eastbound 152</h2>
+    </div>
+    <hr>
+    <div id="Westbound152">
+      <h2>Addison Eastbound 152</h2>
+    </div>
+    <hr>
+    <div id="Southbound52">
+      <h2>Kedzie Southbound 52</h2>
+    </div>
+
+  </div>
+</div>
+      <script>
+        $(function baseFunction() {
+          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+          //passthru url
+          var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getpredictions";
+          //original datat site
+          $(function() {
+                $("#results").html("");
+                  var url = apiPassThruUrl
+                  //search for results on button press
+                  
+          $.ajax({
+              url: apiPassThruUrl,
+              dataType: "json",
+              method: 'GET',
+              data: {"apiEndpoint": apiEndpoint,
+                      "key" : "MC9Uhep9YuZ8XWsM2CpNTwhrq",
+                      "format":"json",
+                      "stpid" : "12527,12569,8195,8417,17786", 
+                      "rt" : "49,X49,152,52"
+              }
+                  
+            }).done (function (data) {
+              $.each(data["bustime-response"]["prd"], function(index,value){
+                console.log(value);
+                var html=
+                "<p>"
+                 + value.prdctdn
+                + "</p>";
+                
+              $("#" + value.rtdir + value.rt).append(html);
+              });
+              
+              
+              
+              
+              
+             
+             
+              });
+
+            });
+        });
+            
+  
+</script>
+
+
+</body>
+</html>
